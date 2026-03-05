@@ -19,5 +19,5 @@ async def send_data(user_id: int, data: str) -> None:
 
 async def send_report_screenshot(user_id: int) -> None:
     async with bot.session:
-        screen: FSInputFile = FSInputFile('save.png')
-        await bot.send_photo(user_id, screen)
+        screen: FSInputFile = FSInputFile('save.jpg')
+        await bot.send_photo(chat_id=user_id, photo=screen, request_timeout=60)

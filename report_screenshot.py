@@ -45,5 +45,5 @@ def make_pic_from_instrument(line1: tuple, asset_name: str, quantity: str, curre
     #
     ui.Col92_Row2_label.setText(previous_change_per)
 
-    Form.grab().save('save.png', 'png', quality=100)
-    sys.exit(app.exec_())
+    Form.grab().save('save.jpg', 'jpg', quality=85)
+    app.quit()

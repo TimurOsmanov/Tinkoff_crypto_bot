@@ -89,7 +89,8 @@ class Instrument:
                 strg_asset: Instrument
                 strg_asset.share = round(strg_asset.current_sum / cls.type_sum['all']['now'], 4)
             Instrument(names[asset_type], asset_type, 1,
-                       round(cls.type_sum[asset_type]['now'], 2),
+                       # for stable correct sort
+                       round(cls.type_sum[asset_type]['now'], 2) + 0.01,
                        round(cls.type_sum[asset_type]['average'], 2), None,
                        round(cls.type_sum[asset_type]['now'] / cls.type_sum['all']['now'], 4))
 
@@ -213,8 +214,9 @@ class Instrument:
             assets = client.operations.get_portfolio(account_id=my_account_id).positions
 
             for asset in assets:
-                asset_name = 'Рубли' if asset.figi == 'RUB000UTSTOM' \
-                    else client.instruments.find_instrument(query=asset.figi).instruments[0].name
+                asset_name = 'Рубли' if asset.figi == 'RUB000UTSTOM' else (
+                    "USD" if asset.figi == 'USD800UTSTOM' 
+                    else client.instruments.find_instrument(query=asset.figi).instruments[0].name)
                 asset_type = asset.instrument_type
                 quantity = asset.quantity.units + asset.quantity.nano / 10 ** 9
                 nkd = asset.current_nkd.units + asset.current_nkd.nano / 10 ** 9
